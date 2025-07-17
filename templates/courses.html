@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>Browse Courses</h1>
+            <p class="lead">Explore our wide range of courses across various subjects</p>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" id="course-search" placeholder="Search courses...">
+                <button class="btn btn-primary" type="button" id="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary filter-btn active" data-filter="all">All</button>
+                <button type="button" class="btn btn-outline-primary filter-btn" data-filter="math">Mathematics</button>
+                <button type="button" class="btn btn-outline-primary filter-btn" data-filter="science">Science</button>
+                <button type="button" class="btn btn-outline-primary filter-btn" data-filter="programming">Programming</button>
+                <button type="button" class="btn btn-outline-primary filter-btn" data-filter="humanities">Humanities</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="courses-container">
+        {% for course in courses %}
+        <div class="col-lg-4 col-md-6 mb-4 course-card" data-category="{{ course.category|lower }}">
+            <div class="card h-100">
+                <img src="{{ course.thumbnail_url or '/static/images/course-placeholder.png' }}" 
+                     class="card-img-top" 
+                     alt="{{ course.title }}"
+                     style="height: 180px; object-fit: cover;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h5 class="card-title">{{ course.title }}</h5>
+                        <span class="badge bg-primary">{{ course.category }}</span>
+                    </div>
+                    <p class="card-text">{{ course.description[:120] }}{% if course.description|length > 120 %}...{% endif %}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted"><i class="fas fa-clock"></i> {{ course.duration }} hours</span>
+                        <span class="text-muted"><i class="fas fa-star text-warning"></i> {{ course.rating|default(4.5) }}</span>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="/course/{{ course.course_id }}" class="btn btn-primary btn-sm">View Course</a>
+                    {% if 'user_id' in session %}
+                    <span class="float-end">
+                        {% if course.progress %}
+                        <div class="progress" style="width: 100px; height: 20px;">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ course.progress }}%;" 
+                                 aria-valuenow="{{ course.progress }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">{{ course.progress }}%</div>
+                        </div>
+                        {% endif %}
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <button class="btn btn-outline-primary" id="load-more">Load More Courses</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Filter courses by category
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.dataset.filter;
+            const courseCards = document.querySelectorAll('.course-card');
+            
+            courseCards.forEach(card => {
+                if (filter === 'all' || card.dataset.category.includes(filter)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+    
+    // Search functionality
+    const searchInput = document.getElementById('course-search');
+    const searchButton = document.getElementById('search-button');
+    
+    function performSearch() {
+        const query = searchInput.value.toLowerCase();
+        const courseCards = document.querySelectorAll('.course-card');
+        
+        courseCards.forEach(card => {
+            const title = card.querySelector('.card-title').textContent.toLowerCase();
+            const description = card.querySelector('.card-text').textContent.toLowerCase();
+            
+            if (title.includes(query) || description.includes(query)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+    
+    searchButton.addEventListener('click', performSearch);
+    searchInput.addEventListener('keyup', function(e) {
+        if (e.key === 'Enter') {
+            performSearch();
+        }
+    });
+    
+    // Load more courses (simulated)
+    const loadMoreBtn = document.getElementById('load-more');
+    loadMoreBtn.addEventListener('click', function() {
+        // In a real app, this would fetch more courses from the server
+        this.textContent = 'No more courses to load';
+        this.disabled = true;
+    });
+});
+</script>
+{% endblock %}

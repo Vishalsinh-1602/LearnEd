@@ -1,0 +1,148 @@
+/* Auth pages styling */
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.auth-logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-logo img {
+    height: 50px;
+}
+
+.auth-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.auth-subtitle {
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+.form-control {
+    height: 45px;
+    border: 1px solid #e1e5eb;
+    padding-left: 15px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #4dabf7;
+}
+
+.btn-auth {
+    height: 45px;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.divider {
+    position: relative;
+    margin: 30px 0;
+    text-align: center;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #e1e5eb;
+    z-index: 1;
+}
+
+.divider span {
+    position: relative;
+    display: inline-block;
+    padding: 0 15px;
+    background-color: #fff;
+    z-index: 2;
+    color: #6c757d;
+}
+
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.social-btn.google {
+    background-color: #db4437;
+}
+
+.social-btn.facebook {
+    background-color: #4267b2;
+}
+
+.social-btn.apple {
+    background-color: #000;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #6c757d;
+}
+
+/* Password strength indicator */
+.password-strength {
+    height: 5px;
+    background-color: #e9ecef;
+    margin-top: 5px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.password-strength-bar {
+    height: 100%;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+/* Validation messages */
+.invalid-feedback {
+    display: none;
+    color: #dc3545;
+    font-size: 0.875em;
+}
+
+.is-invalid ~ .invalid-feedback {
+    display: block;
+}

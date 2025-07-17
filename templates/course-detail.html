@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details | AI Education Platform</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom styles for course detail page */
+        .course-header {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .course-thumbnail {
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .lesson-list {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .lesson-item {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .lesson-item:hover {
+            background-color: #f8f9fa;
+            border-left-color: #0d6efd;
+        }
+        
+        .lesson-item.completed {
+            background-color: #f0fff0;
+        }
+        
+        .progress-thin {
+            height: 6px;
+        }
+        
+        .instructor-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+        
+        .recommended-course {
+            transition: transform 0.3s ease;
+        }
+        
+        .recommended-course:hover {
+            transform: translateY(-5px);
+        }
+        
+        @media (max-width: 768px) {
+            .course-header {
+                padding: 1.5rem;
+            }
+            
+            .course-thumbnail {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation would be here in a complete site -->
+    
+    <div class="container py-4">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Courses</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Mathematics Fundamentals</li>
+            </ol>
+        </nav>
+        
+        <!-- Course Header -->
+        <div class="course-header">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1>Mathematics Fundamentals</h1>
+                    <p class="lead">Master the essential mathematical concepts needed for advanced studies in science and engineering.</p>
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="badge bg-primary me-2">Mathematics</span>
+                        <span class="text-muted me-3"><i class="fas fa-user-graduate"></i> 1,245 students</span>
+                        <span class="text-muted"><i class="fas fa-star text-warning"></i> 4.7 (128 reviews)</span>
+                    </div>
+                    
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar" role="progressbar" style="width: 35%;" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">35% Complete</div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <img src="https://via.placeholder.com/400x225" alt="Mathematics Fundamentals" class="img-fluid course-thumbnail">
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Course Content -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">Course Content</h3>
+                    </div>
+                    <div class="list-group list-group-flush lesson-list">
+                        <a href="#" class="list-group-item list-group-item-action lesson-item completed">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-1">Lesson 1: Introduction to Algebra</h5>
+                                    <p class="mb-1 text-muted">Basic algebraic concepts and operations</p>
+                                    <small class="text-muted"><i class="fas fa-clock"></i> 45 min</small>
+                                </div>
+                                <span class="badge bg-success rounded-pill"><i class="fas fa-check"></i></span>
+                            </div>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action lesson-item completed">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-1">Lesson 2: Linear Equations</h5>
+                                    <p class="mb-1 text-muted">Solving equations with one variable</p>
+                                    <small class="text-muted"><i class="fas fa-clock"></i> 60 min</small>
+                                </div>
+                                <span class="badge bg-success rounded-pill"><i class="fas fa-check"></i></span>
+                            </div>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action lesson-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-1">Lesson 3: Quadratic Equations</h5>
+                                    <p class="mb-1 text-muted">Understanding and solving quadratic equations</p>
+                                    <small class="text-muted"><i class="fas fa-clock"></i> 75 min</small>
+                                </div>
+                                <span class="badge bg-light text-dark rounded-pill"><i class="fas fa-play"></i></span>
+                            </div>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action lesson-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-1">Lesson 4: Functions and Graphs</h5>
+                                    <p class="mb-1 text-muted">Visualizing mathematical functions</p>
+                                    <small class="text-muted"><i class="fas fa-clock"></i> 90 min</small>
+                                </div>
+                                <span class="badge bg-light text-dark rounded-pill"><i class="fas fa-lock"></i></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Instructor Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">About the Instructor</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <img src="https://via.placeholder.com/150" alt="Dr. Sarah Johnson" class="rounded-circle me-3 instructor-img">
+                            <div>
+                                <h4>Dr. Sarah Johnson</h4>
+                                <p class="text-muted">Professor of Mathematics at Stanford University</p>
+                                <p>Dr. Johnson has over 15 years of experience teaching mathematics at the university level. She specializes in making complex mathematical concepts accessible to students of all levels.</p>
+                                <div class="d-flex">
+                                    <span class="badge bg-light text-dark me-2"><i class="fas fa-star text-warning"></i> 4.9 Instructor Rating</span>
+                                    <span class="badge bg-light text-dark me-2"><i class="fas fa-user-graduate"></i> 12,345 Students</span>
+                                    <span class="badge bg-light text-dark"><i class="fas fa-play-circle"></i> 8 Courses</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Course Actions -->
+                <div class="card mb-4">
+                    <img src="https://via.placeholder.com/400x225" class="card-img-top" alt="Mathematics Fundamentals">
+                    <div class="card-body">
+                        <h5 class="card-title">Course Details</h5>
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-clock text-primary"></i> Duration</span>
+                                <span>15 hours</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-layer-group text-primary"></i> Level</span>
+                                <span class="badge bg-info">Beginner</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-file-alt text-primary"></i> Lessons</span>
+                                <span>12</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-tasks text-primary"></i> Exercises</span>
+                                <span>45</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="btn btn-primary w-100 mb-2">
+                            <i class="fas fa-play me-1"></i> Continue Learning
+                        </a>
+                        <button class="btn btn-outline-primary w-100">
+                            <i class="fas fa-bookmark me-1"></i> Save for Later
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- AI Tutor Help -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Need Help?</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Stuck on a concept? Our AI tutor can help!</p>
+                        <a href="#" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-robot me-1"></i> Ask AI Tutor
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Recommended Courses -->
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Recommended Next</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex mb-3 recommended-course">
+                            <img src="https://via.placeholder.com/80" class="rounded me-3" width="60" height="60" style="object-fit: cover;">
+                            <div>
+                                <h6 class="mb-0">Advanced Algebra</h6>
+                                <small class="text-muted">Mathematics</small>
+                                <div class="progress progress-thin mt-1">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3 recommended-course">
+                            <img src="https://via.placeholder.com/80" class="rounded me-3" width="60" height="60" style="object-fit: cover;">
+                            <div>
+                                <h6 class="mb-0">Calculus Basics</h6>
+                                <small class="text-muted">Mathematics</small>
+                                <div class="progress progress-thin mt-1">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 5%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex recommended-course">
+                            <img src="https://via.placeholder.com/80" class="rounded me-3" width="60" height="60" style="object-fit: cover;">
+                            <div>
+                                <h6 class="mb-0">Statistics Fundamentals</h6>
+                                <small class="text-muted">Mathematics</small>
+                                <div class="progress progress-thin mt-1">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer would be here in a complete site -->
+    
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // JavaScript for interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mark lesson as completed (example functionality)
+            document.querySelectorAll('.lesson-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    if (!this.classList.contains('completed')) {
+                        if (confirm('Mark this lesson as completed?')) {
+                            this.classList.add('completed');
+                            const badge = this.querySelector('.badge');
+                            badge.className = 'badge bg-success rounded-pill';
+                            badge.innerHTML = '<i class="fas fa-check"></i>';
+                            
+                            // Update progress (in a real app, this would be an API call)
+                            const progressBar = document.querySelector('.progress-bar');
+                            const currentWidth = parseInt(progressBar.style.width);
+                            progressBar.style.width = (currentWidth + 8) + '%';
+                            progressBar.textContent = (currentWidth + 8) + '% Complete';
+                        }
+                    }
+                });
+            });
+            
+            // Tooltip initialization
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+</body>
+</html>

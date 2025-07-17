@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h2>Login to Your Account</h2>
+                        <p class="text-muted">Access your personalized learning dashboard</p>
+                    </div>
+                    
+                    <form id="loginForm" action="/login" method="POST">
+                        <input type="hidden" name="redirect" value="{{ request.args.get('redirect', '') }}">
+                        
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username or Email</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="form-text text-end">
+                                <a href="/forgot-password">Forgot password?</a>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                            <label class="form-check-label" for="remember">Remember me</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 py-2 mb-3">Login</button>
+                        
+                        <div class="text-center">
+                            <p class="text-muted">Don't have an account? <a href="/register">Register</a></p>
+                        </div>
+                    </form>
+                    
+                    <div class="d-flex justify-content-center mt-4">
+                        <a href="#" class="btn btn-outline-secondary btn-sm me-2">
+                            <i class="fab fa-google"></i> Google
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm me-2">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">
+                            <i class="fab fa-apple"></i> Apple
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Logging in...';
+        
+        fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(new FormData(this))
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const redirect = new URLSearchParams(window.location.search).get('redirect');
+                window.location.href = redirect || '/';
+            } else {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Login';
+                alert(data.message || 'Login failed. Please try again.');
+            }
+        })
+        .catch(error => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Login';
+            alert('An error occurred. Please try again.');
+        });
+    });
+});
+</script>
+{% endblock %}

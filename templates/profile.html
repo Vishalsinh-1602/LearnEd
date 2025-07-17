@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="{{ user.profile_pic or '/static/images/profile-placeholder.png' }}" 
+                         class="rounded-circle mb-3" 
+                         width="150" 
+                         height="150" 
+                         alt="Profile Picture">
+                    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                    <p class="text-muted">@{{ user.username }}</p>
+                    <p class="text-muted"><i class="fas fa-envelope"></i> {{ user.email }}</p>
+                    <p class="text-muted">Member since {{ user.join_date.strftime('%B %Y') }}</p>
+                    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        Edit Profile
+                    </button>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Learning Stats</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h6>Courses Enrolled</h6>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar bg-success" role="progressbar" 
+                                 style="width: {{ stats.courses_completed_percent }}%;" 
+                                 aria-valuenow="{{ stats.courses_completed_percent }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                                {{ stats.courses_enrolled }} total
+                            </div>
+                        </div>
+                        <small class="text-muted">{{ stats.courses_completed }} completed</small>
+                    </div>
+                    <div class="mb-3">
+                        <h6>Lessons Completed</h6>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar bg-info" role="progressbar" 
+                                 style="width: {{ stats.lessons_completed_percent }}%;" 
+                                 aria-valuenow="{{ stats.lessons_completed_percent }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                                {{ stats.lessons_completed }} of {{ stats.lessons_total }}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h6>Learning Streak</h6>
+                        <div class="d-flex align-items-center">
+                            <span class="display-6 text-primary me-2">{{ stats.streak_days }}</span>
+                            <span class="text-muted">days in a row</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Your Courses</h5>
+                    <a href="/courses" class="btn btn-sm btn-light">Browse More</a>
+                </div>
+                <div class="card-body">
+                    {% if enrolled_courses %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Progress</th>
+                                    <th>Last Accessed</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for course in enrolled_courses %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ course.thumbnail_url or '/static/images/course-placeholder.png' }}" 
+                                                 class="rounded me-3" 
+                                                 width="40" 
+                                                 height="40" 
+                                                 style="object-fit: cover;">
+                                            <div>
+                                                <h6 class="mb-0">{{ course.title }}</h6>
+                                                <small class="text-muted">{{ course.category }}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 100px;">
+                                            <div class="progress-bar" role="progressbar" 
+                                                 style="width: {{ course.progress }}%;" 
+                                                 aria-valuenow="{{ course.progress }}" 
+                                                 aria-valuemin="0" 
+                                                 aria-valuemax="100">{{ course.progress }}%</div>
+                                        </div>
+                                    </td>
+                                    <td>{{ course.last_accessed|default('Not started', true) }}</td>
+                                    <td>
+                                        <a href="/course/{{ course.course_id }}" class="btn btn-sm btn-outline-primary">
+                                            {% if course.progress > 0 %}Continue{% else %}Start{% endif %}
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+                        <h5>No courses enrolled yet</h5>
+                        <p>Browse our courses to start learning</p>
+                        <a href="/courses" class="btn btn-primary">Browse Courses</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Recent Activity</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_activity %}
+                    <div class="list-group list-group-flush">
+                        {% for activity in recent_activity %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="mb-1">{{ activity.title }}</h6>
+                                    <small class="text-muted">{{ activity.description }}</small>
+                                </div>
+                                <small class="text-muted">{{ activity.timestamp }}</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-history fa-3x text-muted mb-3"></i>
+                        <h5>No recent activity</h5>
+                        <p>Start learning to see your activity here</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="profileForm" action="/api/profile" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3 text-center">
+                        <img id="profileImagePreview" 
+                             src="{{ user.profile_pic or '/static/images/profile-placeholder.png' }}" 
+                             class="rounded-circle mb-2" 
+                             width="100" 
+                             height="100" 
+                             alt="Profile Preview">
+                        <input type="file" class="form-control" id="profileImage" name="profile_image" accept="image/*">
+                    </div>
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="first_name" value="{{ user.first_name }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="last_name" value="{{ user.last_name }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">New Password (leave blank to keep current)</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Profile image preview
+    const profileImage = document.getElementById('profileImage');
+    const profileImagePreview = document.getElementById('profileImagePreview');
+    
+    profileImage.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                profileImagePreview.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // Profile form submission
+    const profileForm = document.getElementById('profileForm');
+    profileForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        fetch(this.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message || 'Error updating profile');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
